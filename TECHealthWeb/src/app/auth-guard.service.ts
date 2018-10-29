@@ -15,6 +15,9 @@ export class AuthGuard implements CanActivate {
         tap(authenticated => {
           if (!authenticated) {
             this.router.navigate(['auth/login']);
+          }else{
+            console.log("Logueado");
+            //this.router.navigate(['pages/administrativo']);
           }
         }),
       ); // canActive can return Observable<boolean>, which is exactly what isAuhenticated returns
