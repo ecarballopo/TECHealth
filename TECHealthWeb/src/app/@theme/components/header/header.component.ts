@@ -4,17 +4,19 @@ import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { UserService } from '../../../@core/data/users.service';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
 import { LayoutService } from '../../../@core/data/layout.service';
+import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 
 @Component({
   selector: 'ngx-header',
   styleUrls: ['./header.component.scss'],
   templateUrl: './header.component.html',
 })
+
 export class HeaderComponent implements OnInit {
 
   @Input() position = 'normal';
 
-  user: any;
+  user: {};
 
   userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
 
@@ -22,12 +24,19 @@ export class HeaderComponent implements OnInit {
               private menuService: NbMenuService,
               private userService: UserService,
               private analyticsService: AnalyticsService,
-              private layoutService: LayoutService) {
+              private layoutService: LayoutService,
+              private authService: NbAuthService) {
+                this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+                  if (token.isValid()) {
+                    this.user = token.getPayload(); // here we receive a payload from the token and assigne it to our `user` variable 
+                  }
+
+                });
   }
 
   ngOnInit() {
-    this.userService.getUsers()
-      .subscribe((users: any) => this.user = users.nick);
+    /*this.userService.getUsers()
+      .subscribe((users: any) => this.user = users.nick);*/
   }
 
   toggleSidebar(): boolean {
