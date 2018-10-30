@@ -51,6 +51,9 @@ const formSetting: any = {
            login: {
              endpoint: '/authentication',//path para login
              method: 'post',
+             redirect:{
+               success: 'pages'
+             }
            },
            register: {
              endpoint: '/logins',
@@ -59,6 +62,9 @@ const formSetting: any = {
            logout: {
             endpoint: '/auth/sign-out',
             method: 'post',
+            redirect:{
+              success: ''
+            }
           },
           requestPass: {
             endpoint: '/auth/request-pass',
